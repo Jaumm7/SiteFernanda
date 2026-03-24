@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jogo da Memória - Saúde</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- TELA 1: BANNER -->
+  <div id="tela-banner" class="tela ativa">
+    <div class="banner">
+      <img src="./img/banner.png" alt="Banner do Jogo" id="banner-img" />
+      <h1>Jogo da Memória</h1>
+      <p>Sintomas & Medicamentos</p>
+      <button onclick="irParaTela('tela-nome')">Jogar</button>
+    </div>
+  </div>
+
+  <!-- TELA 2: NOME -->
+  <div id="tela-nome" class="tela">
+    <div class="card-centro">
+      <h2>Qual é o seu nome?</h2>
+      <input type="text" id="input-nome" placeholder="Digite seu nome..." maxlength="30" />
+      <button onclick="iniciarJogo()">Começar</button>
+    </div>
+  </div>
+
+  <!-- TELA 3: JOGO -->
+  <div id="tela-jogo" class="tela">
+    <div class="hud">
+      <span>👤 <span id="hud-nome"></span></span>
+      <span>✅ Acertos: <span id="hud-acertos">0</span></span>
+      <span>⏱️ <span id="hud-tempo">0s</span></span>
+    </div>
+    <div id="grid-cartas"></div>
+  </div>
+
+  <!-- MODAL: PERGUNTA V/F -->
+  <div id="modal-pergunta" class="modal oculto">
+    <div class="modal-box">
+      <h3 id="modal-par"></h3>
+      <p id="modal-pergunta-texto"></p>
+      <div class="modal-btns">
+        <button class="btn-vf verdadeiro" onclick="responder(true)">✔ Verdadeiro</button>
+        <button class="btn-vf falso" onclick="responder(false)">✘ Falso</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: EXPLICAÇÃO -->
+  <div id="modal-explicacao" class="modal oculto">
+    <div class="modal-box">
+      <div id="modal-resultado-icone"></div>
+      <p id="modal-explicacao-texto"></p>
+      <button onclick="fecharExplicacao()">Continuar</button>
+    </div>
+  </div>
+
+  <!-- TELA 4: RANKING -->
+  <div id="tela-ranking" class="tela">
+    <div class="card-centro">
+      <h2>🏆 Ranking</h2>
+      <table id="tabela-ranking">
+        <thead><tr><th>#</th><th>Nome</th><th>Pontuação</th></tr></thead>
+        <tbody id="ranking-body"></tbody>
+      </table>
+      <button onclick="jogarNovamente()">Jogar Novamente</button>
+      <button onclick="limparRanking()" style="background:#dc2626;color:#fff;margin-top:4px">🗑️ Limpar Ranking</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
