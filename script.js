@@ -241,12 +241,6 @@ function renderizarRanking(ranking) {
     </tr>`).join('');
 }
 
-function limparRanking() {
-  if (!confirm('Tem certeza que deseja limpar o ranking?')) return;
-  localStorage.removeItem('ranking');
-  document.getElementById('ranking-body').innerHTML = '';
-}
-
 function jogarNovamente() {
   document.getElementById('input-nome').value = '';
   irParaTela('tela-nome');
