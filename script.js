@@ -228,7 +228,7 @@ function finalizarJogo() {
   localStorage.setItem('ranking', JSON.stringify(ranking));
 
   renderizarRanking(ranking);
-  irParaTela('tela-ranking');
+  irParaTela('tela-creditos');
 }
 
 function renderizarRanking(ranking) {

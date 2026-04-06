@@ -11,9 +11,7 @@
   <!-- TELA 1: BANNER -->
   <div id="tela-banner" class="tela ativa">
     <div class="banner">
-      <img src="./img/bannner.png" alt="Banner do Jogo" id="banner-img" />
-      <h1>Jogo da Memória</h1>
-      <p>Sintomas & Medicamentos</p>
+      <img src="./img/banner.png" alt="Banner do Jogo" id="banner-img" />
       <button onclick="irParaTela('tela-nome')">Jogar</button>
     </div>
   </div>
@@ -35,6 +33,7 @@
       <span>⏱️ <span id="hud-tempo">0s</span></span>
     </div>
     <div id="grid-cartas"></div>
+    <button onclick="finalizarJogo()" style="margin:12px;background:#475569;color:#fff">Encerrar Jogo</button>
   </div>
 
   <!-- MODAL: PERGUNTA V/F -->
@@ -58,7 +57,15 @@
     </div>
   </div>
 
-  <!-- TELA 4: RANKING -->
+  <!-- TELA 4: CRÉDITOS -->
+  <div id="tela-creditos" class="tela">
+    <div class="banner">
+      <img src="./img/creditos.png" alt="Créditos" />
+      <button onclick="irParaTela('tela-ranking')">Ver Ranking</button>
+    </div>
+  </div>
+
+  <!-- TELA 5: RANKING -->
   <div id="tela-ranking" class="tela">
     <div class="card-centro">
       <h2>🏆 Ranking</h2>
