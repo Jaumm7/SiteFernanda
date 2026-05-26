@@ -9,7 +9,7 @@ const app = initializeApp({
   messagingSenderId: "160140604797",
   appId: "1:160140604797:web:6e0753f1a84535f44c0814"
 });
-const db = getFirestore(app);
+const db = getFirestore(app)
 
 const PARES = [
   {
