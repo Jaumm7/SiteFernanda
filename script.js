@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 
 const app = initializeApp({
   apiKey: "AIzaSyBsGSU0lkUE-5Xd3g-XiijPs0TGzJh8xRE",
@@ -263,6 +263,13 @@ function renderizarRanking(ranking) {
     </tr>`).join('');
 }
 
+async function limparRanking() {
+  if (!confirm('Tem certeza que deseja limpar o ranking?')) return;
+  const snapshot = await getDocs(collection(db, 'ranking'));
+  await Promise.all(snapshot.docs.map(d => deleteDoc(doc(db, 'ranking', d.id))));
+  renderizarRanking([]);
+}
+
 function jogarNovamente() {
   document.getElementById('input-nome').value = '';
   irParaTela('tela-nome');
@@ -275,6 +282,7 @@ window.responder = responder;
 window.fecharExplicacao = fecharExplicacao;
 window.finalizarJogo = finalizarJogo;
 window.carregarRanking = carregarRanking;
+window.limparRanking = limparRanking;
 window.jogarNovamente = jogarNovamente;
 
 // Inicializa na tela do banner
