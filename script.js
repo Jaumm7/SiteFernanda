@@ -264,6 +264,8 @@ function renderizarRanking(ranking) {
 }
 
 async function limparRanking() {
+  const senha = prompt('Digite a senha para limpar o ranking:');
+  if (senha !== 'Ursula123') return alert('Senha incorreta!');
   if (!confirm('Tem certeza que deseja limpar o ranking?')) return;
   const snapshot = await getDocs(collection(db, 'ranking'));
   await Promise.all(snapshot.docs.map(d => deleteDoc(doc(db, 'ranking', d.id))));
