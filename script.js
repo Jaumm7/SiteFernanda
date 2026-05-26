@@ -1,3 +1,16 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
+
+const app = initializeApp({
+  apiKey: "AIzaSyBsGSU0lkUE-5Xd3g-XiijPs0TGzJh8xRE",
+  authDomain: "sitefer-bce3c.firebaseapp.com",
+  projectId: "sitefer-bce3c",
+  storageBucket: "sitefer-bce3c.firebasestorage.app",
+  messagingSenderId: "160140604797",
+  appId: "1:160140604797:web:6e0753f1a84535f44c0814"
+});
+const db = getFirestore(app);
+
 const PARES = [
   {
     sintoma: "Dor de cabeça",
@@ -92,6 +105,7 @@ let acertos = 0;
 let tempoInicio = 0;
 let timerInterval = null;
 let totalPares = PARES.length;
+let jogoFinalizado = false;
 
 function irParaTela(id) {
   document.querySelectorAll('.tela').forEach(t => {
@@ -110,6 +124,7 @@ function iniciarJogo() {
   acertos = 0;
   cartasViradas = [];
   parEncontrado = null;
+  jogoFinalizado = false;
 
   document.getElementById('hud-nome').textContent = nomeJogador;
   document.getElementById('hud-acertos').textContent = 0;
@@ -217,18 +232,25 @@ function iniciarTimer() {
   }, 1000);
 }
 
-function finalizarJogo() {
+async function finalizarJogo() {
+  if (jogoFinalizado) return;
+  jogoFinalizado = true;
   clearInterval(timerInterval);
   const tempoTotal = Math.max(1, Math.floor((Date.now() - tempoInicio) / 1000));
   const pontuacao = parseFloat((acertos / tempoTotal).toFixed(4));
 
-  const ranking = JSON.parse(localStorage.getItem('ranking') || '[]');
-  ranking.push({ nome: nomeJogador, acertos, tempo: tempoTotal, pontuacao });
-  ranking.sort((a, b) => b.pontuacao - a.pontuacao);
-  localStorage.setItem('ranking', JSON.stringify(ranking));
+  await addDoc(collection(db, 'ranking'), { nome: nomeJogador, acertos, tempo: tempoTotal, pontuacao });
+
+  const snapshot = await getDocs(query(collection(db, 'ranking'), orderBy('pontuacao', 'desc'), limit(20)));
+  const ranking = snapshot.docs.map(d => d.data());
 
   renderizarRanking(ranking);
   irParaTela('tela-creditos');
+}
+
+async function carregarRanking() {
+  const snapshot = await getDocs(query(collection(db, 'ranking'), orderBy('pontuacao', 'desc'), limit(20)));
+  renderizarRanking(snapshot.docs.map(d => d.data()));
 }
 
 function renderizarRanking(ranking) {
@@ -245,6 +267,15 @@ function jogarNovamente() {
   document.getElementById('input-nome').value = '';
   irParaTela('tela-nome');
 }
+
+// Expõe funções para o HTML
+window.irParaTela = irParaTela;
+window.iniciarJogo = iniciarJogo;
+window.responder = responder;
+window.fecharExplicacao = fecharExplicacao;
+window.finalizarJogo = finalizarJogo;
+window.carregarRanking = carregarRanking;
+window.jogarNovamente = jogarNovamente;
 
 // Inicializa na tela do banner
 irParaTela('tela-banner');
